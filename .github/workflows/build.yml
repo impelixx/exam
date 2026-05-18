@@ -1,0 +1,50 @@
+name: Build & Publish
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install TeX Live + fonts
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends \
+            texlive-xetex \
+            texlive-latex-extra \
+            texlive-lang-cyrillic \
+            texlive-fonts-extra \
+            fonts-paratype \
+            latexmk
+
+      - name: Build all subjects
+        run: bash scripts/build-all.sh
+
+      - name: Publish to rolling release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG="latest"
+
+          if gh release view "$TAG" &>/dev/null; then
+            # Релиз уже существует — обновляем заметку и перезаписываем файлы
+            gh release edit "$TAG" \
+              --title "Экзамен" \
+              --notes "Код \`${{ github.sha }}\` · $(date -u '+%Y-%m-%d %H:%M UTC')"
+
+            gh release upload "$TAG" output/*.pdf --clobber
+          else
+            # Первый запуск — создаём релиз
+            gh release create "$TAG" output/*.pdf \
+              --title "Экзамен" \
+              --notes "Код \`${{ github.sha }}\` · $(date -u '+%Y-%m-%d %H:%M UTC')" \
+              --latest
+          fi

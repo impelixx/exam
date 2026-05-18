@@ -1,0 +1,406 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{style}[2025/01/21 Exam Tickets Style]
+
+\RequirePackage[
+    a4paper,
+    top=2cm, bottom=2cm, left=2.5cm, right=2.5cm,
+    headheight=14pt, includehead, includefoot
+]{geometry}
+
+\RequirePackage{fontspec}
+\RequirePackage{polyglossia}
+\setdefaultlanguage{russian}
+\setotherlanguage{english}
+
+\RequirePackage{microtype}
+\RequirePackage{setspace}
+\RequirePackage{amsmath,amssymb,amsthm}
+\RequirePackage{mathtools}
+\RequirePackage[table]{xcolor}
+\RequirePackage{graphicx}
+\RequirePackage{tikz}
+\usetikzlibrary{chains, decorations.pathreplacing, shapes.arrows, positioning, calc, matrix, fit}
+\RequirePackage{booktabs}
+\RequirePackage{array}
+\RequirePackage{longtable}
+\RequirePackage{tabularx}
+\RequirePackage{enumitem}
+\RequirePackage{listings}
+\RequirePackage{hyperref}
+\RequirePackage{bookmark}
+\RequirePackage{fancyhdr}
+\RequirePackage{titlesec}
+\RequirePackage{tocloft}
+\RequirePackage[most]{tcolorbox}
+\RequirePackage{etoolbox}
+\RequirePackage{calc}
+\RequirePackage{pgffor}
+
+\definecolor{primary}{RGB}{30, 30, 30}
+\definecolor{secondary}{RGB}{110, 110, 110}
+\definecolor{accent}{RGB}{60, 80, 110}
+\definecolor{lightgray}{RGB}{245, 245, 245}
+\definecolor{rule}{RGB}{190, 190, 190}
+\definecolor{ticketbg}{RGB}{248, 248, 252}
+
+\setmainfont{PT Serif}[Ligatures=TeX]
+\setsansfont{PT Sans}[Ligatures=TeX, Scale=0.95]
+
+\IfFontExistsTF{Latin Modern Mono}{%
+    \setmonofont{Latin Modern Mono}[Scale=0.9]
+    \newfontfamily\cyrillicfonttt{Latin Modern Mono}[Scale=0.9]
+}{%
+    \IfFontExistsTF{Menlo}{%
+        \setmonofont{Menlo}[Scale=0.9]
+        \newfontfamily\cyrillicfonttt{Menlo}[Scale=0.9]
+    }{%
+        \setmonofont{Courier New}[Scale=0.9]
+        \newfontfamily\cyrillicfonttt{Courier New}[Scale=0.9]
+    }%
+}%
+
+\newfontfamily\cyrillicfont{PT Serif}[Ligatures=TeX]
+\newfontfamily\cyrillicfontsf{PT Sans}[Ligatures=TeX, Scale=0.95]
+
+% ─── Мета-команды ────────────────────────────────────────────────────────────
+
+\newcommand{\coursename}{Название курса}
+\newcommand{\coursesubtitle}{Экзаменационные билеты}
+\newcommand{\teachername}{Имя преподавателя}
+\newcommand{\institution}{Университет}
+\newcommand{\schoolname}{}
+\newcommand{\semester}{Весна 2025}
+\newcommand{\authorlist}{}
+
+\newcommand{\setcoursename}[1]{\renewcommand{\coursename}{#1}}
+\newcommand{\setcoursesubtitle}[1]{\renewcommand{\coursesubtitle}{#1}}
+\newcommand{\setteachername}[1]{\renewcommand{\teachername}{#1}}
+\newcommand{\setinstitution}[1]{\renewcommand{\institution}{#1}}
+\newcommand{\setschoolname}[1]{\renewcommand{\schoolname}{#1}}
+\newcommand{\setsemester}[1]{\renewcommand{\semester}{#1}}
+\newcommand{\setauthors}[1]{\renewcommand{\authorlist}{#1}}
+\newcommand{\authorentry}[2]{\href{#2}{#1}}
+
+\newcommand{\studentname}{}
+\newcommand{\setstudentname}[1]{\renewcommand{\studentname}{#1}\setauthors{#1}}
+
+% ─── Типографика ─────────────────────────────────────────────────────────────
+
+\setstretch{1.3}
+\setlength{\parindent}{1.25em}
+\setlength{\parskip}{0.4ex plus 0.2ex minus 0.1ex}
+
+% ─── Титульная страница ───────────────────────────────────────────────────────
+
+\newcommand{\maketitlepage}{%
+    \begin{titlepage}
+        \newgeometry{top=3cm, bottom=3cm, left=3cm, right=3cm}
+        \begin{center}
+            {\small\bfseries\institution}%
+            \ifx\schoolname\empty\else\\[0.2em]{\small\bfseries\schoolname}\fi
+        \end{center}
+        \vspace{1.5cm}
+        \IfFileExists{island.png}{%
+            \begin{center}
+                \includegraphics[height=3cm]{island.png}
+            \end{center}
+            \vspace{2cm}%
+        }{%
+            \vspace{5cm}%
+        }
+        \begin{center}
+            {\addfontfeature{LetterSpace=15}\large\bfseries\MakeUppercase{\coursename}}
+
+            \vspace{1.5em}
+            {\normalsize\color{secondary}\coursesubtitle}
+
+            \vspace{2em}
+            {\small Экзаменатор:\enspace\textit{\teachername}}
+        \end{center}
+        \vspace{2em}
+        \ifx\authorlist\empty\else
+        \begin{flushright}
+            \small
+            {\color{secondary}Авторы:}\enspace{\color{accent}\authorlist}
+        \end{flushright}
+        \fi
+        \vfill
+        \begin{center}
+            {\small\color{secondary}\semester}
+        \end{center}
+        \restoregeometry
+    \end{titlepage}
+}
+
+\newcommand{\toclink}{\hyperlink{toc}{Назад к содержанию}}
+
+% ─── Колонтитулы ─────────────────────────────────────────────────────────────
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{secondary}\coursename}
+\fancyhead[R]{\small\color{accent}\toclink}
+\fancyfoot[L]{\small\color{secondary}ВШПИ МФТИ, \semester}
+\fancyfoot[R]{\small\color{secondary}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+\renewcommand{\headrule}{{\color{rule}\hrule width\headwidth height\headrulewidth}}
+\renewcommand{\footrule}{{\color{rule}\hrule width\headwidth height\footrulewidth}}
+
+\fancypagestyle{plain}{%
+    \fancyhf{}
+    \fancyfoot[L]{\small\color{secondary}ВШПИ МФТИ, \semester}
+    \fancyfoot[R]{\small\color{secondary}\thepage}
+    \renewcommand{\headrulewidth}{0pt}
+    \renewcommand{\footrulewidth}{0.4pt}
+    \renewcommand{\footrule}{{\color{rule}\hrule width\headwidth height\footrulewidth}}
+}
+
+% ─── Заголовки секций ─────────────────────────────────────────────────────────
+
+\titleformat{\section}{\large\bfseries\color{primary}}{\thesection.}{0.5em}{}
+\titleformat{\subsection}{\normalsize\bfseries\color{primary}}{\thesubsection.}{0.5em}{}
+\titleformat{\subsubsection}{\normalsize\itshape\color{primary}}{\thesubsubsection.}{0.5em}{}
+
+\titlespacing*{\section}{0pt}{2ex plus 0.5ex}{1ex plus 0.2ex}
+\titlespacing*{\subsection}{0pt}{1.5ex plus 0.3ex}{0.8ex plus 0.1ex}
+\titlespacing*{\subsubsection}{0pt}{1ex plus 0.2ex}{0.5ex plus 0.1ex}
+
+% ─── Билет ───────────────────────────────────────────────────────────────────
+
+\newcounter{ticketnum}
+\newcounter{questionnum}
+
+\newcommand{\ticket}[2]{%
+    \setcounter{ticketnum}{#1}%
+    \setcounter{section}{0}%
+    \setcounter{questionnum}{0}%
+    \newpage
+    \phantomsection
+    \addcontentsline{toc}{section}{\texorpdfstring{%
+        Билет №\,#1\ifx\relax#2\relax\else:\enspace#2\fi%
+    }{%
+        Билет №\,#1\ifx\relax#2\relax\else: #2\fi%
+    }}%
+    \begin{tcolorbox}[
+        colback=ticketbg, colframe=accent, boxrule=1pt, arc=2pt,
+        left=1em, right=1em, top=0.7em, bottom=0.7em,
+        before skip=0em, after skip=1.2em
+    ]
+        \begin{center}
+            {\large\bfseries\color{primary}БИЛЕТ №~#1}%
+            \ifx\relax#2\relax\else\\[0.3em]%
+                {\normalsize\color{secondary}#2}\fi
+        \end{center}
+    \end{tcolorbox}
+}
+
+\newcommand{\question}[1]{%
+    \stepcounter{questionnum}%
+    \subsection*{\arabic{questionnum}.\enspace #1}%
+    \addcontentsline{toc}{subsection}{\texorpdfstring{%
+        \arabic{questionnum}.\enspace #1%
+    }{\arabic{questionnum}. #1}}%
+}
+
+% ─── Оглавление ──────────────────────────────────────────────────────────────
+
+\renewcommand{\cfttoctitlefont}{\large\bfseries}
+\renewcommand{\cftaftertoctitle}{\par\noindent{\color{rule}\rule{\textwidth}{0.5pt}}\vspace{0.5em}}
+\renewcommand{\cftsecfont}{\normalfont}
+\renewcommand{\cftsecpagefont}{\normalfont}
+\renewcommand{\cftsecleader}{\cftdotfill{\cftsecdotsep}}
+\renewcommand{\cftsecdotsep}{\cftdotsep}
+
+% ─── Списки ──────────────────────────────────────────────────────────────────
+
+\setlist{topsep=0.3ex, itemsep=0.2ex, parsep=0.1ex, leftmargin=1.5em}
+\setlist[itemize,1]{label={\small\textbullet}}
+\setlist[itemize,2]{label={\small--}}
+\setlist[enumerate,1]{label={\arabic*.}}
+\setlist[enumerate,2]{label={\alph*)}}
+
+% ─── Теоремы ─────────────────────────────────────────────────────────────────
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Теорема}[section]
+\newtheorem{lemma}[theorem]{Лемма}
+\newtheorem{proposition}[theorem]{Утверждение}
+\newtheorem{corollary}[theorem]{Следствие}
+
+\theoremstyle{definition}
+\newtheorem{example}{Пример}[section]
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Замечание}
+\newtheorem*{note}{Примечание}
+
+\renewcommand{\qedsymbol}{$\square$}
+
+% ─── tcolorbox-окружения ─────────────────────────────────────────────────────
+
+\newtcolorbox{thmbox}{
+    breakable,
+    colback=lightgray, colframe=rule, boxrule=0.5pt, arc=0pt,
+    left=0.8em, right=0.8em, top=0.6em, bottom=0.6em, boxsep=0pt,
+    before skip=0.8em, after skip=0.8em
+}
+
+\newtcolorbox{defbox}{
+    breakable,
+    colback=white, colframe=rule, boxrule=0.5pt, arc=0pt,
+    left=0.8em, right=0.8em, top=0.6em, bottom=0.6em, boxsep=0pt,
+    before skip=0.8em, after skip=0.8em,
+    borderline west={2pt}{0pt}{accent}
+}
+
+\tcbuselibrary{theorems}
+
+\newtcbtheorem[number within=section]{definition}{Определение}{%
+    blanker, breakable,
+    left=0pt, top=0.2em, bottom=0.2em,
+    before skip=0.7em, after skip=0.7em,
+    fonttitle=\bfseries, coltitle=primary,
+    separator sign={.\ }}{def}
+
+\newtcbtheorem[number within=section]{implementation}{Реализация}{%
+    blanker,
+    borderline west={1pt}{0pt}{rule},
+    left=0.8em, top=0.2em, bottom=0.2em,
+    before skip=0.7em, after skip=0.7em,
+    fonttitle=\bfseries, coltitle=primary,
+    separator sign={.\ }}{impl}
+
+\newtcbtheorem[number within=section]{tcolortheorem}{Теорема}{%
+    blanker, breakable,
+    left=0pt, top=0.2em, bottom=0.2em,
+    before skip=0.7em, after skip=0.7em,
+    fonttitle=\bfseries\itshape, coltitle=primary,
+    separator sign={.\ }}{tthm}
+
+\newtcbtheorem[number within=section]{algorithm}{Алгоритм}{%
+    blanker, breakable,
+    borderline west={1pt}{0pt}{rule},
+    left=0.8em, top=0.2em, bottom=0.2em,
+    before skip=0.7em, after skip=0.7em,
+    fonttitle=\bfseries, coltitle=primary,
+    separator sign={.\ }}{alg}
+
+% ─── Листинги ────────────────────────────────────────────────────────────────
+
+\definecolor{codegreen}{RGB}{60, 110, 60}
+\definecolor{codepurple}{RGB}{90, 60, 110}
+\definecolor{codeorange}{RGB}{140, 80, 20}
+\definecolor{codeblue}{RGB}{40, 70, 120}
+
+\lstdefinestyle{code}{
+    backgroundcolor=\color{lightgray},
+    basicstyle=\small\ttfamily,
+    breaklines=true,
+    frame=single,
+    framesep=0.5em,
+    framerule=0.5pt,
+    rulecolor=\color{rule},
+    numbers=left,
+    numbersep=0.8em,
+    numberstyle=\tiny\color{secondary},
+    commentstyle=\color{codegreen}\itshape,
+    keywordstyle=\color{codeblue}\bfseries,
+    stringstyle=\color{codeorange},
+    emphstyle=\color{codepurple},
+    showstringspaces=false,
+    tabsize=4,
+    xleftmargin=1.5em,
+    xrightmargin=0.5em,
+    escapeinside={(*@}{@*)},
+    literate={а}{{\selectfont\char224}}1
+             {б}{{\selectfont\char225}}1
+             {в}{{\selectfont\char226}}1
+             {г}{{\selectfont\char227}}1
+             {д}{{\selectfont\char228}}1
+             {е}{{\selectfont\char229}}1
+             {ё}{{\selectfont\char184}}1
+             {ж}{{\selectfont\char230}}1
+             {з}{{\selectfont\char231}}1
+             {и}{{\selectfont\char232}}1
+             {й}{{\selectfont\char233}}1
+             {к}{{\selectfont\char234}}1
+             {л}{{\selectfont\char235}}1
+             {м}{{\selectfont\char236}}1
+             {н}{{\selectfont\char237}}1
+             {о}{{\selectfont\char238}}1
+             {п}{{\selectfont\char239}}1
+             {р}{{\selectfont\char240}}1
+             {с}{{\selectfont\char241}}1
+             {т}{{\selectfont\char242}}1
+             {у}{{\selectfont\char243}}1
+             {ф}{{\selectfont\char244}}1
+             {х}{{\selectfont\char245}}1
+             {ц}{{\selectfont\char246}}1
+             {ч}{{\selectfont\char247}}1
+             {ш}{{\selectfont\char248}}1
+             {щ}{{\selectfont\char249}}1
+             {ъ}{{\selectfont\char250}}1
+             {ы}{{\selectfont\char251}}1
+             {ь}{{\selectfont\char252}}1
+             {э}{{\selectfont\char253}}1
+             {ю}{{\selectfont\char254}}1
+             {я}{{\selectfont\char255}}1
+}
+
+\lstset{style=code}
+
+\lstdefinestyle{cpp}{style=code, language=C++,
+    morekeywords={nullptr, constexpr, auto, override, final, noexcept, decltype, thread_local}}
+
+\lstdefinestyle{python}{style=code, language=Python,
+    morekeywords={self, True, False, None, as, with, yield, async, await, match, case},
+    emph={__init__, __str__, __repr__, __len__, __call__}}
+
+\lstdefinestyle{java}{style=code, language=Java,
+    morekeywords={var, record, sealed, permits, yield}}
+
+\lstdefinestyle{go}{style=code, language=C,
+    morekeywords={func, package, import, var, const, type, struct, interface, map, chan,
+                  go, defer, range, select, case, fallthrough, nil, true, false, iota,
+                  make, new, append, len, cap}}
+
+\lstdefinestyle{bash}{style=code, language=bash,
+    morekeywords={echo, cd, ls, mkdir, rm, cp, mv, cat, grep, sed, awk, find,
+                  xargs, chmod, chown, sudo, apt, yum, brew, npm, pip, git}}
+
+\newcommand{\code}[1]{\texttt{#1}}
+
+\lstnewenvironment{cpp}{\samepage\noindent\begin{minipage}{\linewidth}\lstset{style=cpp}}{\end{minipage}}
+\lstnewenvironment{python}{\samepage\noindent\begin{minipage}{\linewidth}\lstset{style=python}}{\end{minipage}}
+\lstnewenvironment{java}{\samepage\noindent\begin{minipage}{\linewidth}\lstset{style=java}}{\end{minipage}}
+\lstnewenvironment{golang}{\samepage\noindent\begin{minipage}{\linewidth}\lstset{style=go}}{\end{minipage}}
+\lstnewenvironment{bash}{\samepage\noindent\begin{minipage}{\linewidth}\lstset{style=bash}}{\end{minipage}}
+
+% ─── Таблицы ─────────────────────────────────────────────────────────────────
+
+\newcommand{\tablemark}{\rule{0pt}{2.5ex}}
+\renewcommand{\arraystretch}{1.4}
+\setlength{\tabcolsep}{0.8em}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\arraybackslash}p{#1}}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+\newcolumntype{X}{>{\raggedright\arraybackslash}X}
+\setlength{\LTpre}{0.6em}
+\setlength{\LTpost}{0.6em}
+\setlength{\LTcapwidth}{\linewidth}
+
+% ─── Гиперссылки ─────────────────────────────────────────────────────────────
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=accent,
+    urlcolor=accent,
+    citecolor=accent,
+    pdftitle={\coursename},
+    pdfauthor={\teachername}
+}
+
+\InputIfFileExists{preamble/commands.tex}{}{}
+
+\endinput

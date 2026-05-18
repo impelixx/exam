@@ -1,0 +1,55 @@
+% =============================================================================
+% ЭКЗАМЕНАЦИОННЫЕ БИЛЕТЫ
+% =============================================================================
+%
+% КОМПИЛЯЦИЯ:
+%   xelatex main.tex && xelatex main.tex
+%   или
+%   latexmk -xelatex main.tex
+%
+% СТРУКТУРА:
+%   main.tex          - главный файл (этот)
+%   style.sty         - стили и пакеты
+%   preamble/         - дополнительные настройки
+%     commands.tex    - быстрые команды
+%   tickets/          - файлы билетов (ticket-01.tex, ticket-02.tex, ...)
+%
+% ДОБАВЛЕНИЕ БИЛЕТА:
+%   1. Создайте файл tickets/ticket-XX.tex
+%   2. Начните с \ticket{XX}{Необязательный заголовок}
+%   3. Вопросы оформляйте через \question{Текст вопроса}
+%   4. Файл подключится автоматически при компиляции
+%
+% =============================================================================
+
+\documentclass[11pt, a4paper, oneside]{article}
+
+\usepackage{style}
+
+\setcoursename{Многомерный анализ интегралы и ряды.}
+\setcoursesubtitle{Экзаменационные билеты}
+\setteachername{Тюленев А. И.}
+\setinstitution{Московский физико-технический институт}
+\setschoolname{Высшая школа Промпт Инженеринга}
+\setsemester{Весна 2025}
+
+\setauthors{%
+    \authorentry{Антон}{https://t.me/impelix}\\
+    % \authorentry{Имя}{https://t.me/username}%
+}
+
+\newcommand{\includetickets}{%
+    \foreach \i in {1,...,99}{%
+        \edef\ticketfile{tickets/ticket-\ifnum\i<10 0\fi\i.tex}%
+        \InputIfFileExists{\ticketfile}{}{}%
+    }%
+}
+
+\begin{document}
+\maketitlepage
+\hypertarget{toc}{}
+\tableofcontents
+\newpage
+\includetickets
+
+\end{document}

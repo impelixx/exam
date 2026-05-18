@@ -1,0 +1,83 @@
+% Математические множества
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\providecommand{\C}{\mathbb{C}}
+\newcommand{\F}{\mathbb{F}}
+
+% Скобки
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\setmid}[2]{\left\{#1\mid#2\right\}}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\norm}[1]{\left\|#1\right\|}
+\newcommand{\floor}[1]{\left\lfloor#1\right\rfloor}
+\newcommand{\ceil}[1]{\left\lceil#1\right\rceil}
+\newcommand{\inner}[2]{\langle#1,#2\rangle}
+
+% Операторы
+\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\Ker}{Ker}
+\DeclareMathOperator{\Img}{Im}
+\DeclareMathOperator{\rk}{rk}
+\DeclareMathOperator{\tr}{tr}
+\DeclareMathOperator{\diag}{diag}
+
+% Пределы и суммы
+\newcommand{\limn}{\lim_{n\to\infty}}
+\newcommand{\limx}[1]{\lim_{x\to#1}}
+\newcommand{\sumn}{\sum_{n=1}^{\infty}}
+
+% Производные
+\newcommand{\dd}{\,\mathrm{d}}
+\newcommand{\dv}[2]{\frac{\mathrm{d}#1}{\mathrm{d}#2}}
+\newcommand{\pdv}[2]{\frac{\partial#1}{\partial#2}}
+
+% Логика
+\newcommand{\then}{\Rightarrow}
+\newcommand{\onlyif}{\Leftarrow}
+\renewcommand{\iff}{\Leftrightarrow}
+
+% Прочее
+\newcommand{\eps}{\varepsilon}
+\newcommand{\vphi}{\varphi}
+\newcommand{\es}{\varnothing}
+\newcommand{\ol}[1]{\overline{#1}}
+\newcommand{\term}[1]{\textbf{#1}}
+\newcommand{\eng}[1]{\textenglish{#1}}
+\newcommand{\todo}[1]{{\color{red}\textbf{TODO:} #1}}
+
+% Удобные окружения
+\newcommand{\important}[1]{%
+    \begin{thmbox}
+    \textbf{Важно:} #1
+    \end{thmbox}
+}
+
+\newcommand{\pf}[1]{\begin{proof}#1\end{proof}}
+
+\newenvironment{thm}[1][]{%
+    \begin{thmbox}\begin{theorem}[#1]
+}{%
+    \end{theorem}\end{thmbox}
+}
+
+\newenvironment{defn}[1][]{%
+    \begin{definition}{#1}{}
+}{%
+    \end{definition}
+}
+
+\newenvironment{lem}[1][]{%
+    \begin{thmbox}\begin{lemma}[#1]
+}{%
+    \end{lemma}\end{thmbox}
+}
+
+\newenvironment{items}{%
+    \begin{itemize}[noitemsep,topsep=0pt]
+}{\end{itemize}}
+
+\newenvironment{enum}{%
+    \begin{enumerate}[noitemsep,topsep=0pt]
+}{\end{enumerate}}
