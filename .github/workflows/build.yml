@@ -21,6 +21,7 @@ jobs:
             texlive-xetex \
             texlive-latex-extra \
             texlive-lang-cyrillic \
+            texlive-fonts-recommended \
             texlive-fonts-extra \
             fonts-paratype \
             latexmk
