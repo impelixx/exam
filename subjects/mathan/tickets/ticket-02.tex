@@ -6,8 +6,124 @@
 
 \question{Дифференцируемость ФНП. Частные производные, производные по направлению, матрица Якоби}
 
-% Ответ...
+\begin{defn}[Дифференцируемость ФНП в точке]
+  Функция $f : \mathbb{R}^n \to \mathbb{R}$ называется \textit{дифференцируемой}
+  в точке $x^0$, если существует линейная функция $L : \mathbb{R}^n \to \mathbb{R}$
+  такая, что:
+  \[
+    f(x) - f(x^0) = L(x - x^0) + o(\|x - x^0\|), \quad x \to x^0.
+  \]
+  Линейную функцию $L$ называют \textit{дифференциалом} $f$ в точке $x^0$
+  и обозначают $df(x^0)$. Так как любое линейное отображение
+  $\mathbb{R}^n \to \mathbb{R}$ задаётся скалярным произведением, то:
+  \[
+    f(x) - f(x^0) = \sum_{i=1}^n A_i(x_i - x_i^0) + o(\|x - x^0\|),
+  \]
+  где вектор $\nabla f(x^0) := (A_1, \ldots, A_n)$ называется
+  \textit{градиентом} $f$ в точке $x^0$.
+\end{defn}
 
+\begin{defn}[Частная производная]
+  Пусть $f : \mathbb{R}^n \to \mathbb{R}$, $x^0 \in \mathbb{R}^n$.
+  \textit{Частной производной} $f$ по переменной $x_k$ в точке $x^0$
+  называется предел:
+  \[
+    \frac{\partial f}{\partial x_k}(x^0)
+    := \lim_{t \to 0}
+       \frac{f(x^0 + t e_k) - f(x^0)}{t},
+  \]
+  если он существует, где $e_k = (0,\ldots,\underset{k}{1},\ldots,0)$~---
+  орт $k$-й координатной оси.
+\end{defn}
+
+\begin{defn}[Производная по вектору]
+  Пусть $f : \mathbb{R}^n \to \mathbb{R}$, $x^0 \in \mathbb{R}^n$,
+  $l \in \mathbb{R}^n \setminus \{0\}$.
+  \textit{Производной $f$ по вектору $l$} в точке $x^0$ называется предел:
+  \[
+    \frac{\partial f}{\partial l}(x^0)
+    := \lim_{t \to +0} \frac{f(x^0 + tl) - f(x^0)}{t},
+  \]
+  если он существует. Если $\|l\| = 1$, то говорят о
+  \textit{производной по направлению}.
+\end{defn}
+
+\begin{theorem}[Первое НУ дифференцируемости]
+  Если $f : \mathbb{R}^n \to \mathbb{R}$ дифференцируема в точке $x^0$,
+  то она непрерывна в этой точке.
+  \begin{proof}
+    Из определения дифференцируемости:
+    \[
+      f(x) - f(x^0)
+      = \sum_{i=1}^n A_i(x_i - x_i^0) + o(\|x - x^0\|).
+    \]
+    При $x \to x^0$ каждое слагаемое $A_i(x_i - x_i^0) \to 0$
+    и $o(\|x - x^0\|) \to 0$, значит $f(x) \to f(x^0)$.
+  \end{proof}
+\end{theorem}
+
+\begin{theorem}[Второе НУ: формула для производной по направлению]
+  Если $f : \mathbb{R}^n \to \mathbb{R}$ дифференцируема в точке $x^0$,
+  то для любого $l \in \mathbb{R}^n \setminus \{0\}$ существует производная
+  по вектору $l$ и:
+  \[
+    \frac{\partial f}{\partial l}(x^0)
+    = df(x^0)(l)
+    = \langle \nabla f(x^0),\, l \rangle
+    = \sum_{i=1}^n A_i l_i.
+  \]
+  \begin{proof}
+    Подставим $x = x^0 + tl$ в определение дифференцируемости:
+    \[
+      f(x^0 + tl) - f(x^0)
+      = t \sum_{i=1}^n A_i l_i + \varepsilon(t)\cdot t\|l\|,
+      \quad \varepsilon(t) \to 0.
+    \]
+    Делим на $t > 0$ и переходим к пределу при $t \to +0$:
+    \[
+      \frac{f(x^0 + tl) - f(x^0)}{t}
+      = \sum_{i=1}^n A_i l_i + \varepsilon(t)\cdot\|l\|
+      \;\xrightarrow{t \to +0}\;
+      \sum_{i=1}^n A_i l_i. \qedhere
+    \]
+  \end{proof}
+\end{theorem}
+
+\begin{corollary}[Третье НУ: существование частных производных]
+  Если $f$ дифференцируема в $x^0$, то для каждого $k \in \{1,\ldots,n\}$
+  существует частная производная:
+  \[
+    \frac{\partial f}{\partial x_k}(x^0) = A_k = \bigl(\nabla f(x^0)\bigr)_k.
+  \]
+  \begin{proof}
+    Подставим $l = e_k$ во второе НУ:
+    \[
+      \frac{\partial f}{\partial x_k}(x^0)
+      = \frac{\partial f}{\partial e_k}(x^0)
+      = \sum_{i=1}^n A_i (e_k)_i = A_k. \qedhere
+    \]
+  \end{proof}
+\end{corollary}
+
+\begin{defn}[Матрица Якоби]
+  Пусть $F = (F_1, \ldots, F_m) : \mathbb{R}^n \to \mathbb{R}^m$
+  дифференцируемо в точке $x^0$.
+  \textit{Матрицей Якоби} отображения $F$ в точке $x^0$ называется
+  матрица размера $m \times n$:
+  \[
+    \mathcal{D}F(x^0)
+    :=
+    \begin{pmatrix}
+      \dfrac{\partial F_1}{\partial x_1}(x^0) & \cdots &
+      \dfrac{\partial F_1}{\partial x_n}(x^0) \\[8pt]
+      \vdots & \ddots & \vdots \\[4pt]
+      \dfrac{\partial F_m}{\partial x_1}(x^0) & \cdots &
+      \dfrac{\partial F_m}{\partial x_n}(x^0)
+    \end{pmatrix}.
+  \]
+  Для функции $f : \mathbb{R}^n \to \mathbb{R}$ матрица Якоби~---
+  это строка-градиент $\nabla f(x^0)^\top$.
+\end{defn}
 \question{Непрерывность суммы равномерно сходящегося ряда из непрерывных функций. Почленное интегрирование/дифференцирование ФР}
 
 % Ответ...
