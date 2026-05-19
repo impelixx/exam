@@ -9,6 +9,128 @@
 % Ответ...
 
 \question{Свойства функций непрерывных на компакте: ограниченность, достижимость точной верхней и нижней граней, равномерная непрерывность}
+\begin{note}
+Автор считает что билет какой то странный, тут типо первый семестр что то делает, поэтому он расписан спустя рукава.
+\end{note}
 
-% Ответ...
+\begin{defn}[Компакт в $\R^n$]
+$K \subset \R^n$ --- \emph{компакт}, если $K$ \textbf{замкнуто} и \textbf{ограничено}.
+\end{defn}
+
+\begin{theorem}[Хайне--Борель]
+В $\R^n$: $K$ компакт $\Longleftrightarrow$ из любого открытого покрытия $K$ можно выделить конечное подпокрытие.
+\end{theorem}
+
+\begin{theorem}[Больцано--Вейерштрасс в $\R^n$]\label{thm:bw}
+Из любой ограниченной последовательности $\{x^{(m)}\} \subset \R^n$ можно выделить сходящуюся подпоследовательность.
+\end{theorem}
+
+\begin{proof}[Схема док-ва]
+Индукция по $n$: выделяем сходящуюся подпоследовательность по первой координате, затем из неё --- по второй, и т.д. После $n$ шагов получаем сходящуюся подпоследовательность в $\R^n$ (покоординатная сходимость $\Leftrightarrow$ сходимость по норме).
+\end{proof}
+
+\begin{remark}
+Если $\{x^{(m)}\} \subset K$ и $K$ замкнуто, то предел любой сходящейся подпоследовательности лежит в $K$.
+\end{remark}
+
+%=====================================================%
+\section{Свойства непрерывных функций на компакте}
+%=====================================================%
+
+\begin{theorem}[Вейерштрасс + Кантор]\label{thm:main}
+Пусть $K \subset \R^n$ --- компакт, $f : K \to \R$ непрерывна на $K$. Тогда:
+\begin{enum}
+\item \textbf{Ограниченность:} $\exists M > 0 \; \forall x \in K : |f(x)| \leqslant M$.
+\item \textbf{Достижимость граней:} $\exists x_{\min}, x_{\max} \in K$:
+\[
+f(x_{\min}) = \min_{x \in K} f(x), \qquad f(x_{\max}) = \max_{x \in K} f(x).
+\]
+\item \textbf{Равномерная непрерывность:}
+\[
+\forall \varepsilon > 0 \; \exists \delta > 0 \; \forall x, y \in K : \quad \|x - y\| < \delta \;\Rightarrow\; |f(x) - f(y)| < \varepsilon.
+\]
+\end{enum}
+\end{theorem}
+
+\begin{proof}[1. Ограниченность --- схема]
+От противного: если $f$ не ограничена сверху, то $\forall m \; \exists x^{(m)} \in K : f(x^{(m)}) > m$. По Б--В (теорема \ref{thm:bw}) выделяем $x^{(m_k)} \to x^0 \in K$. По непрерывности $f(x^{(m_k)}) \to f(x^0) \in \R$, но $f(x^{(m_k)}) > m_k \to +\infty$ --- противоречие. Снизу --- аналогично.
+\end{proof}
+
+\begin{proof}[2. Экстремумы --- схема]
+Пусть $M = \sup_K f$. По определению $\sup$:
+\[
+\forall m \; \exists x^{(m)} \in K : \quad M - \frac{1}{m} < f(x^{(m)}) \leqslant M.
+\]
+По Б--В выделяем $x^{(m_k)} \to x_{\max} \in K$. Переходя к пределу и используя непрерывность, получаем $f(x_{\max}) = M = \max_K f$. Для $\min$ рассматриваем $-f$.
+\end{proof}
+
+\begin{proof}[3. Равномерная непрерывность (Кантор) --- схема]
+От противного: $\exists \varepsilon_0 > 0$ такое, что $\forall m \; \exists x^{(m)}, y^{(m)} \in K$:
+\[
+\|x^{(m)} - y^{(m)}\| < \frac{1}{m}, \qquad |f(x^{(m)}) - f(y^{(m)})| \geqslant \varepsilon_0.
+\]
+Из $\{x^{(m)}\}$ по Б--В выделяем $x^{(m_k)} \to x^0 \in K$. Тогда и $y^{(m_k)} \to x^0$ (треугольник: $\|y^{(m_k)} - x^0\| \leqslant \|y^{(m_k)} - x^{(m_k)}\| + \|x^{(m_k)} - x^0\| \to 0$). По непрерывности $f(x^{(m_k)}) \to f(x^0)$ и $f(y^{(m_k)}) \to f(x^0)$, значит $|f(x^{(m_k)}) - f(y^{(m_k)})| \to 0$ --- противоречие с $\geqslant \varepsilon_0$.
+\end{proof}
+
+%=====================================================%
+\section{Предел функции многих переменных}
+%=====================================================%
+
+\begin{defn}[Предел по совокупности (Коши)]
+$\displaystyle \lim_{x \to x^0} f(x) = C$, если
+\[
+\forall \varepsilon > 0 \; \exists \delta > 0 \; \forall x \in E \cap B(x^0, \delta) \setminus \{x^0\} : \quad |f(x) - C| < \varepsilon.
+\]
+\end{defn}
+
+\begin{defn}[Предел по Гейне]
+$f(x^{(m)}) \to C$ для \textbf{любой} последовательности $x^{(m)} \to x^0$, $x^{(m)} \neq x^0$.
+\end{defn}
+
+\begin{theorem}
+Предел по Коши $\Longleftrightarrow$ предел по Гейне. (Док-во: стандартное, как на $\R$, с заменой $|\cdot|$ на $\|\cdot\|$.)
+\end{theorem}
+
+\begin{defn}[Предел по вектору]
+$\displaystyle \lim_{t \to +0} f(x^0 + tl) = C$ для фиксированного $l \in \R^n$, $l \neq 0$.
+\end{defn}
+
+\begin{lemma}
+Если $\exists \lim_{x \to x^0} f(x) = C$, то $\forall l$ предел по вектору $l$ существует и равен $C$. \textbf{Обратное неверно.}
+\end{lemma}
+
+\begin{proof}[Схема]
+Если $x$ близко к $x^0$, то и $x^0 + tl$ близко при малых $t$, поэтому $|f(x^0 + tl) - C| < \varepsilon$. Обратное неверно: можно сходиться по всем прямым к одному числу, а по кривой --- к другому.
+\end{proof}
+
+\begin{example}[Классический контрпример]
+\[
+f(x,y) = \frac{x^2 y}{x^4 + y^2}, \qquad (x,y) \to (0,0).
+\]
+По любому вектору $l = (l_1, l_2)$:
+\[
+f(tl_1, tl_2) = \frac{t^3 l_1^2 l_2}{t^4 l_1^4 + t^2 l_2^2} = \frac{t \, l_1^2 l_2}{t^2 l_1^4 + l_2^2} \xrightarrow[t\to+0]{} 0.
+\]
+Но по параболе $y = x^2$:
+\[
+f(x, x^2) = \frac{x^4}{2x^4} = \frac{1}{2} \quad \Rightarrow \quad \text{предела по совокупности \textbf{нет}.}
+\]
+\end{example}
+
+\begin{defn}[Полярные координаты]
+$x_1 = x_1^0 + r\cos\varphi$, $x_2 = x_2^0 + r\sin\varphi$, $r = \|x - x^0\|$. Положим $g(r, \varphi) = f(x_1^0 + r\cos\varphi, x_2^0 + r\sin\varphi)$.
+\end{defn}
+
+\begin{theorem}
+Если $|g(r, \varphi) - C| \leqslant h(r)$ для всех $\varphi$ и $h(r) \xrightarrow[r\to+0]{} 0$, то $\lim_{x \to x^0} f(x) = C$.
+\end{theorem}
+
+\begin{proof}[Схема]
+При $\|x - x^0\| = r < \delta$ имеем $|f(x) - C| = |g(r, \varphi) - C| \leqslant h(r) < \varepsilon$.
+\end{proof}
+
+\begin{remark}
+Обратное неверно. Но метод полярных координат полезен: если удалось найти мажоранту $h(r) \to 0$, не зависящую от $\varphi$, --- предел есть. Если предел $g(r, \varphi)$ при $r \to +0$ зависит от $\varphi$ --- предела по совокупности нет.
+\end{remark}
+
 
