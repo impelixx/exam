@@ -4,9 +4,51 @@
 
 \ticket{18}{}
 
-\question{Достаточное условие независимости смешанной ЧП}
+\question{Достаточное условие независимости смешанной частной производной от порядка дифференцирования}
 
-% Ответ...
+\begin{theorem}[Достаточное условие независимости смешанных производных от порядка дифференцирования]
+Пусть \(f: U \subseteq \mathbb{R}^n \to \mathbb{R}\). Предположим, что в некоторой окрестности точки \(x^0 \in U\) существуют частные производные \(\frac{\partial f}{\partial x_i}, \frac{\partial f}{\partial x_j}\) и смешанная производная \(\frac{\partial^2 f}{\partial x_i \partial x_j}\), причём последняя непрерывна в точке \(x^0\). Тогда в точке \(x^0\) существует и \(\frac{\partial^2 f}{\partial x_j \partial x_i}(x^0)\), и выполняется равенство
+\[
+\frac{\partial^2 f}{\partial x_i \partial x_j}(x^0) = \frac{\partial^2 f}{\partial x_j \partial x_i}(x^0).
+\]
+(Если вместо \(\frac{\partial^2 f}{\partial x_i \partial x_j}\) непрерывна \(\frac{\partial^2 f}{\partial x_j \partial x_i}\), то утверждение симметрично.)
+\end{theorem}
+
+\begin{proof}
+Для простоты обозначений положим \(n=2\) и \(x^0=(0,0)\), \(i=1\), \(j=2\). Общий случай сводится к этому заменой переменных и фиксацией остальных координат. Рассмотрим выражение
+\[
+g(s,t) = f(s,t) - f(s,0) - f(0,t) + f(0,0).
+\]
+Нас будет интересовать предел \(\frac{g(t,t)}{t^2}\) при \(t\to 0\). Зафиксируем \(t \neq 0\) и применим теорему Лагранжа к функции \(\varphi(s) = f(s,t) - f(s,0)\) на отрезке \([0,t]\):
+\[
+g(t,t) = \varphi(t) - \varphi(0) = \varphi'(\theta_1 t) \cdot t,
+\]
+где \(\theta_1 \in (0,1)\). Но \(\varphi'(s) = \frac{\partial f}{\partial x}(s,t) - \frac{\partial f}{\partial x}(s,0)\). Следовательно,
+\[
+g(t,t) = \left( \frac{\partial f}{\partial x}(\theta_1 t, t) - \frac{\partial f}{\partial x}(\theta_1 t, 0) \right) t.
+\]
+Теперь применим теорему Лагранжа к функции \(\psi(y) = \frac{\partial f}{\partial x}(\theta_1 t, y)\) на отрезке \([0,t]\):
+\[
+\frac{\partial f}{\partial x}(\theta_1 t, t) - \frac{\partial f}{\partial x}(\theta_1 t, 0) = \psi'(\theta_2 t) \cdot t = \frac{\partial^2 f}{\partial y \partial x}(\theta_1 t, \theta_2 t) \cdot t,
+\]
+где \(\theta_2 \in (0,1)\). Итак,
+\[
+g(t,t) = \frac{\partial^2 f}{\partial y \partial x}(\theta_1 t, \theta_2 t) \cdot t^2.
+\]
+Аналогично, если начать с применения теоремы Лагранжа сначала по \(y\), а затем по \(x\), получим
+\[
+g(t,t) = \frac{\partial^2 f}{\partial x \partial y}(\tilde\theta_1 t, \tilde\theta_2 t) \cdot t^2
+\]
+с некоторыми \(\tilde\theta_1, \tilde\theta_2 \in (0,1)\). Таким образом,
+\[
+\frac{\partial^2 f}{\partial y \partial x}(\theta_1 t, \theta_2 t) = \frac{g(t,t)}{t^2} = \frac{\partial^2 f}{\partial x \partial y}(\tilde\theta_1 t, \tilde\theta_2 t).
+\]
+Пусть теперь \(\frac{\partial^2 f}{\partial x \partial y}\) непрерывна в точке \((0,0)\). Тогда при \(t\to 0\) правая часть стремится к \(\frac{\partial^2 f}{\partial x \partial y}(0,0)\). Левая часть при этом стремится к \(\frac{\partial^2 f}{\partial y \partial x}(0,0)\) (поскольку \(\theta_1 t \to 0\), \(\theta_2 t \to 0\) и предел существует, даже если \(\frac{\partial^2 f}{\partial y \partial x}\) не предполагается непрерывной — достаточно её существования в точке). Отсюда следует равенство
+\[
+\frac{\partial^2 f}{\partial y \partial x}(0,0) = \frac{\partial^2 f}{\partial x \partial y}(0,0).
+\]
+Если же непрерывна \(\frac{\partial^2 f}{\partial y \partial x}\), то рассуждение симметрично. ∎
+\end{proof}
 
 \question{Равномерная сходимость ФП и ФР. Критерий Коши. Признак Вейерштрасса}
 
