@@ -1,13 +1,82 @@
-% =============================================================================
-% БИЛЕТ 12
-% =============================================================================
-
 \ticket{12}{}
 
 \question{Формула Тейлора с остаточным членом в форме Пеано и в форме Лагранжа для ФНП}
 
-% Ответ...
+\begin{note}
+Идея: вводим $\varphi(t) = F(x_* + t\,dx)$ и сводим задачу к одномерному Тейлору.
+\end{note}
 
+\begin{theorem}[Остаток Лагранжа]
+Пусть все частные производные $F$ до порядка $m+1$ существуют в $B_\delta(x_*)$.
+Тогда $\forall x \in B_\delta(x_*)$, $dx = x - x_*$:
+\[
+    F(x) = \sum_{k=0}^{m} \frac{d^k_{x_*} F(dx)}{k!}
+    + \frac{d^{m+1}_{x^\theta} F(dx)}{(m+1)!},
+    \quad \theta \in (0,1),
+    \quad x^\theta = x_* + \theta\,dx.
+\]
+\end{theorem}
+
+\begin{proof}
+Введём $\varphi(t) = F(x_* + t\,dx)$, тогда $\varphi(0) = F(x_*)$, $\varphi(1) = F(x)$.
+
+\textit{Ключевой факт} (индукция по $k$): $\varphi^{(k)}(t) = d^k_{x^t}F(dx)$.
+
+База $k=1$: внутренняя функция $H(t) = x_* + t\,dx$ имеет производную
+$DH(t) = dx$, поэтому по теореме о дифференцировании композиции:
+\[
+    \varphi'(t) = DF(x^t)\cdot dx
+    = \sum_{i=1}^n \frac{\partial F}{\partial x_i}(x^t)\cdot dx_i
+    = d_{x^t}F(dx).
+\]
+
+Шаг: дифференцируем $d^l_{x^t}F(dx) =
+\sum_{i_1,\ldots,i_l} \frac{\partial^l F}{\partial x_{i_1}\cdots\partial x_{i_l}}(x^t)
+\cdot dx_{i_1}\cdots dx_{i_l}$ по $t$.
+Множители $dx_{i_j}$ константны, поэтому снова применяем теорему о композиции
+к каждой частной производной и получаем $d^{l+1}_{x^t}F(dx)$.
+
+Итого $\varphi^{(k)}(0) = d^k_{x_*}F(dx)$.
+Применяем одномерный Тейлор к $\varphi$ на $[0,1]$ и подставляем:
+\[
+    F(x) = \sum_{k=0}^{m} \frac{d^k_{x_*} F(dx)}{k!}
+    + \frac{d^{m+1}_{x^\theta} F(dx)}{(m+1)!}. \qedhere
+\]
+\end{proof}
+
+\begin{theorem}[Остаток Пеано]
+Пусть все частные производные $F$ до порядка $m$ существуют и непрерывны
+в $B_\delta(x_*)$. Тогда $\forall x \in B_\delta(x_*)$:
+\[
+    F(x) = \sum_{k=0}^{m} \frac{d^k_{x_*} F(dx)}{k!}
+    + o\!\left(\|x - x_*\|^m\right), \quad x \to x_*.
+\]
+\end{theorem}
+
+\begin{proof}
+Применяем Лагранжа с $m-1$ и добавляем умный ноль $\pm\frac{d^m_{x_*}F(dx)}{m!}$:
+\[
+    F(x) = \sum_{k=0}^{m} \frac{d^k_{x_*} F(dx)}{k!} + R, \qquad
+    R = \frac{d^m_{x^\theta}F(dx) - d^m_{x_*}F(dx)}{m!}.
+\]
+
+Оценим $R$. Так как $|dx_i| \leq \|x-x_*\|$, то
+$|dx_{i_1}\cdots dx_{i_m}| \leq \|x-x_*\|^m$.
+Обозначим:
+\[
+    \varepsilon(x) := \max_{i_1,\ldots,i_m}
+    \left|
+        \frac{\partial^m F}{\partial x_{i_1}\cdots\partial x_{i_m}}(x^\theta)
+        -\frac{\partial^m F}{\partial x_{i_1}\cdots\partial x_{i_m}}(x_*)
+    \right| \xrightarrow{x \to x_*} 0
+\]
+по непрерывности частных производных порядка $m$.
+В сумме $n^m$ слагаемых, поэтому:
+\[
+    |R| \leq \frac{n^m \cdot \varepsilon(x)}{m!} \cdot \|x-x_*\|^m
+    = o\!\left(\|x-x_*\|^m\right). \qedhere
+\]
+\end{proof}
 \question{Интегральный признак сходимости ЧР}
 
 % Ответ...
