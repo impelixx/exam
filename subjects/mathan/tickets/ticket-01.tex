@@ -7,7 +7,39 @@
 
 \question{Достаточные условия дифференцируемости ФНП}
 
-% Ответ...
+\begin{definition}
+  Пусть $X \subset \R^m$ --- окрестность точки $x^0$, $f : X \to \R$ --- функция. Функция $f$ называется \emph{дифференцируемой в точке $x^0$}, если существует вектор $a \in \R^m$ такой, что
+  \[
+    f(x) = f(x^0) + \langle a, x - x^0\rangle + o(\|x - x^0\|), \quad x \to x^0.
+  \]
+  Вектор $a$ называется \emph{градиентом} функции $f$ в точке $x^0$ и обозначается $\nabla f(x^0)$.
+\end{definition}
+
+\begin{theorem}[Достаточные условия дифференцируемости ФНП]
+  Пусть $X \subset \R^m$ --- окрестность точки $x^0$, $f : X \to \R$ --- функция. Если все частные производные функции $f$ существуют в окрестности точки $x^0$ и непрерывны в точке $x^0$, то функция $f$ дифференцируема в точке $x^0$ и $\nabla f(x^0) = \bigl(\frac{\partial f}{\partial x_1}(x^0), \ldots, \frac{\partial f}{\partial x_m}(x^0)\bigr)$.
+\end{theorem}
+\begin{proof}
+  Пусть $a := \bigl(\frac{\partial f}{\partial x_1}(x^0), \ldots, \frac{\partial f}{\partial x_m}(x^0)\bigr)$. Тогда
+  \[
+    f(x) - f(x^0) - \langle a, x - x^0\rangle
+    = \sum_{k=1}^m \bigl(f(x_1, \ldots, x_k, x^0_{k+1}, \ldots, x^0_m) - f(x_1, \ldots, x_{k-1}, x^0_k, x^0_{k+1}, \ldots, x^0_m) - \frac{\partial f}{\partial x_k}(x^0)(x_k - x^0_k)\bigr).
+  \]
+  Для каждого $k$ рассмотрим функцию $g_k(t) := f(x_1, \ldots, x_{k-1}, t, x^0_{k+1}, \ldots, x^0_m)$, $t \in [x^0_k, x_k]$. Тогда по формуле Лагранжа для каждого $k$ существует $\theta_k \in (0, 1)$ такой, что
+  \[  
+    f(x_1, \ldots, x_k, x^0_{k+1}, \ldots, x^0_m) - f(x_1, \ldots, x_{k-1}, x^0_k, x^0_{k+1}, \ldots, x^0_m) = g_k(x_k) - g_k(x^0_k) = g'_k(x^0_k + \theta_k(x_k - x^0_k))(x_k - x^0_k).
+  \]
+  Поскольку $g'_k(t) = \frac{\partial f}{\partial x_k}(x_1, \ldots, x_{k-1}, t, x^0_{k+1}, \ldots, x^0_m)$ и $\frac{\partial f}{\partial x_k}(x^0) = \frac{\partial f}{\partial x_k}(x_1, \ldots, x_{k-1}, x^0_k, x^0_{k+1}, \ldots, x^0_m)$, то
+  \[
+    f(x_1, \ldots, x_k, x^0_{k+1}, \ldots, x^0_m) - f(x_1, \ldots, x_{k-1}, x^0_k, x^0_{k+1}, \ldots, x^0_m) - \frac{\partial f}{\partial x_k}(x^0)(x_k - x^0_k) = \bigl(\frac{\partial f}{\partial x_k}(x_1, \ldots, x_{k-1}, x^0_k + \theta_k(x_k - x^0_k), x^0_{k+1}, \ldots, x^0_m) - \frac{\partial f}{\partial x_k}(x^0)\bigr)(x_k - x^0_k).
+  \]
+  Поскольку $\frac{\partial f}{\partial x_k}$ непрерывна в точке $x^0$, то $\frac{\partial f}{\partial x_k}(x_1, \ldots, x_{k-1}, x^0_k + \theta_k(x_k - x^0_k), x^0_{k+1}, \ldots, x^0_m) \to \frac{\partial f}{\partial x_k}(x^0)$ при $x \to x^0$. Поэтому
+  \[
+    f(x_1, \ldots, x_k, x^0_{k+1}, \ldots, x^0_m) - f(x_1, \ldots, x_{k-1}, x^0_k, x^0_{k+1}, \ldots, x^0_m) - \frac{\partial f}{\partial x_k}(x^0)(x_k - x^0_k) = o(\|x - x^0\|).
+  \]
+  Таким образом,
+  \[
+    f(x) - f(x^0) - \langle a, x - x^0\rangle = \sum_{k=1}^m o(\|x - x^0\|) = o(\|x - x^0\|).
+  \] \end{proof}
 
 \question{Признаки Дирихле и Абеля равномерной сходимости ФР}
 
