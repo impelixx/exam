@@ -6,9 +6,89 @@
 
 \question{Необходимое условие условного экстремума}
 
-% Ответ...
+\begin{defn}[Точка условного локального экстремума]
+  Точка $p$ называется \emph{точкой условного локального минимума} $f$ на $M$, если
+  $\exists\delta>0$: $f(x) \geq f(p)$ для всех $x \in M \cap B_\delta(p)$.
+\end{defn}
 
-\question{Линейность определённого интеграла. Аддитивность относительно отрезков интегрируемости}
+\begin{defn}[Функция Лагранжа]
+  \emph{Функция Лагранжа} --- это $\mathcal{L}(x, \lambda) = f(x) - \lambda_1 p_1(x) - \ldots - \lambda_{n-k} p_{n-k}(x)$.
 
-% Ответ...
+  На допустимом множестве $M = \{x: p_i(x) = 0\}$ выполняется
+  $\mathcal{L}(x,\lambda) = f(x)$ для любого $\lambda$.
+\end{defn}
 
+\begin{theorem}[Необходимое условие условного экстремума, метод множителей Лагранжа]
+  Пусть $p_1,\ldots,p_{n-k} \in C^1(\Omega)$, $M = \{x\in\Omega: p_1(x)=\ldots=p_{n-k}(x)=0\}$,
+  $\forall p \in M$ градиенты $\nabla p_1(p),\ldots,\nabla p_{n-k}(p)$ линейно независимы
+  и $f \in C^1(\Omega)$. Если $p$ --- точка условного экстремума $f$ на $M$, то
+  $\exists \lambda_1^0,\ldots,\lambda_{n-k}^0$ такие, что
+  \[
+    \nabla f(p) + \sum_{j=1}^{n-k} \lambda_j^0\,\nabla p_j(p) = 0.
+  \]
+  \begin{proof}
+    \textbf{Шаг 1.} Возьмём произвольный вектор $h \in T_p M$ (касательное пространство).
+    По определению касательного вектора $\exists \gamma: (-\delta,\delta) \to M$
+    такая, что $\gamma(0) = p$, $\gamma'(0) = h$.
+
+    \textbf{Шаг 2.} Рассмотрим $g(t) = f(\gamma(t))$.
+    Так как $p = \gamma(0)$ --- точка условного экстремума на $M$, то $t=0$ --- точка экстремума $g$,
+    откуда $g'(0) = 0$. По правилу дифференцирования сложной функции:
+    \[
+      g'(0) = \langle \nabla f(\gamma(0)),\, \gamma'(0) \rangle = \langle \nabla f(p),\, h \rangle = 0.
+    \]
+
+    \textbf{Шаг 3.} Так как $h \in T_p M$ произвольно, $\nabla f(p) \perp T_p M$.
+
+    \textbf{Шаг 4.} Поскольку ограничения задают многообразие $M$, каждый $\nabla p_j(p)$
+    также перпендикулярен $T_p M$ (как нормаль к гиперповерхности $p_j = 0$).
+    Так как $\{\nabla p_j(p)\}$ линейно независимы и порождают нормальное пространство
+    (размерности $n-k$), то $\nabla f(p)$ лежит в их линейной оболочке:
+    \[
+      \nabla f(p) = -\sum_{j=1}^{n-k} \lambda_j^0\,\nabla p_j(p). \qedhere
+    \]
+  \end{proof}
+\end{theorem}
+
+\question{Линейность определённого интеграла. Аддитивность относительно отрезков интегрирования}
+
+\begin{defn}[Сумма Римана]
+  Пусть $f: [a,b] \to \mathbb{R}$, $T = \{x_0,\ldots,x_n\}$ --- разбиение, $\varepsilon_i \in [x_{i-1}, x_i]$.
+  \emph{Сумма Римана}:
+  $\sigma(f, T, \varepsilon_T) = \sum_{i=1}^n f(\varepsilon_i)(x_i - x_{i-1})$.
+\end{defn}
+
+\begin{defn}[Интегрируемость по Риману]
+  $f \in R([a,b])$, если $\exists J \in \mathbb{R}$ такое, что
+  $\forall\varepsilon>0\;\exists\delta>0: \forall T,\,\lambda(T)<\delta,\;\forall\varepsilon_T:
+  |\sigma(f,T,\varepsilon_T) - J| < \varepsilon$.
+  Обозначается $J = \int_a^b f(x)\,dx$.
+\end{defn}
+
+\begin{theorem}[Линейность]
+  Если $f, g \in R([a,b])$ и $\alpha,\beta \in \mathbb{R}$, то $\alpha f + \beta g \in R([a,b])$ и
+  \[
+    \int_a^b (\alpha f + \beta g)\,dx = \alpha \int_a^b f\,dx + \beta \int_a^b g\,dx.
+  \]
+  \begin{proof}
+    Из сумм Римана видно, что $\alpha$ и $\beta$ можно вынести за знак суммы:
+    $\sigma(\alpha f + \beta g, T, \varepsilon_T) = \alpha\,\sigma(f,T,\varepsilon_T) + \beta\,\sigma(g,T,\varepsilon_T)$.
+    Так как $\int f = J_1$ и $\int g = J_2$ по определению,
+    для данного $\varepsilon > 0$ выбираем $\delta$ так, чтобы оба отклонения были $< \varepsilon / (|\alpha|+|\beta|)$,
+    тогда $|\sigma(\alpha f+\beta g,T,\varepsilon_T) - \alpha J_1 - \beta J_2| < \varepsilon$. \qedhere
+  \end{proof}
+\end{theorem}
+
+\begin{theorem}[Аддитивность]
+  Если $a < c < b$, то
+  \[
+    \int_a^b f(x)\,dx = \int_a^c f(x)\,dx + \int_c^b f(x)\,dx.
+  \]
+  \begin{proof}
+    Пусть $T_1$ --- разбиение $[a,c]$, $T_2$ --- разбиение $[c,b]$, $T = T_1 \cup T_2$.
+    Тогда $\lambda(T_i) \leq \lambda(T)$ и
+    $\sigma(f, T, \varepsilon_T) = \sigma(f, T_1, \varepsilon_{T_1}) + \sigma(f, T_2, \varepsilon_{T_2})$.
+    При $\lambda(T) < \delta$ каждый из трёх интегралов имеет оценку отклонения $< \varepsilon$;
+    из неравенства треугольника $|\sigma(f,T) - J_1 - J_2| < 3\varepsilon$. \qedhere
+  \end{proof}
+\end{theorem}

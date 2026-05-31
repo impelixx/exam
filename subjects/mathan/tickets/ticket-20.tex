@@ -6,57 +6,102 @@
 
 \question{Необходимые условия экстремума ФНП}
 
-% Ответ...
-
-\question{Монотонность сумм Дарбу по разбиениям. Критерий интегрируемости}
-\begin{note}
-Разбиением будем называть конечное множество $P = \{x_0, x_1, \ldots, x_n\}$ такое, что $a = x_0 < x_1 < \ldots < x_n = b$. И записывать его как $\mathcal{T} = \{x_0, x_1, \ldots, x_n\}$
-А его легкость считать как масикмальное расстояние между соседними точками: $\lambda(\mathcal{T}) = \max_{1 \leq k \leq n} (x_k - x_{k-1})$.
-\end{note}
-
-\begin{defn}[Суммы Дарбу]
-  Пусть $f : [a, b] \to \R$ --- ограниченная функция, $P = \{x_0, x_1, \ldots, x_n\}$ --- разбиение отрезка $[a, b]$. Тогда \emph{нижняя сумма Дарбу} функции $f$ по разбиению $P$ --- это
+\begin{defn}[Локальный экстремум]
+  Пусть $E \subset \mathbb{R}^m$, $f: E \to \mathbb{R}$, $x_0 \in E$.
+  Точка $x_0$ называется \emph{точкой локального минимума (максимума)} $f$ на $E$, если
+  $\exists\delta_0 > 0$: $\forall x \in U_{\delta_0}(x_0) \cap E$
   \[
-    s(f, P) := \sum_{k=1}^n (x_k - x_{k-1})\cdot\inf_{x \in [x_{k-1}, x_k]} f(x).
-  \]
-  Аналогично, \emph{верхняя сумма Дарбу} функции $f$ по разбиению $P$ --- это
-  \[
-    S(f, P) := \sum_{k=1}^n (x_k - x_{k-1})\cdot\sup_{x \in [x_{k-1}, x_k]} f(x).
+    f(x) \geq f(x_0) \quad (\text{соотв.} \leq f(x_0)).
   \]
 \end{defn}
 
-\begin{theorem}[Монотонность сумм Дарбу по разбиениям] 
-  Пусть $f : [a, b] \to \R$ --- ограниченная функция, $P$ и $Q$ --- разбиения отрезка $[a, b]$. Тогда
-  \begin{enumerate}
-    \item Если $P \subset Q$, то $s(f, P) \leq s(f, Q)$ и $S(f, P) \geq S(f, Q)$.
-    \item Для всякого разбиения $P$ выполняется неравенство $s(f, P) \leq S(f, P)$.
-  \end{enumerate}
-\end{theorem}
-\begin{proof}
-  \textbf{Шаг 1.} Пусть $P \subset Q$. Тогда $Q$ получается из $P$ добавлением новых точек. Достаточно показать, что при добавлении одной новой точки $s(f, P)$ не убывает, а $S(f, P)$ не возрастает.
+\begin{defn}[Стационарная точка]
+  Точка $x_0$ называется \emph{стационарной}, если все частные производные $f$ в ней равны нулю:
+  \[
+    \frac{\partial f}{\partial x_1}(x_0) = \ldots = \frac{\partial f}{\partial x_m}(x_0) = 0.
+  \]
+\end{defn}
 
-  Пусть $P = \{x_0, x_1, \ldots, x_n\}$ и $Q = P \cup \{y\}$, где $y \in (x_{k-1}, x_k)$ для некоторого $k$. Тогда
+\begin{theorem}[Необходимое условие экстремума]
+  Пусть $E \subset \mathbb{R}^m$ открыто, $f: E \to \mathbb{R}$,
+  и в точке $x_0$ существуют все частные производные.
+  Если $x_0$ --- точка локального экстремума, то $x_0$ стационарна:
   \[
-    s(f, Q) = s(f, P) - (x_k - x_{k-1})\cdot\inf_{x \in [x_{k-1}, x_k]} f(x) + (y - x_{k-1})\cdot\inf_{x \in [x_{k-1}, y]} f(x) + (x_k - y)\cdot\inf_{x \in [y, x_k]} f(x).
+    \frac{\partial f}{\partial x_i}(x_0) = 0 \quad \forall i \in \{1,\ldots,m\}.
   \]
-  Поскольку $\inf_{x \in [x_{k-1}, x_k]} f(x) \leq \inf_{x \in [x_{k-1}, y]} f(x)$ и $\inf_{x \in [x_{k-1}, x_k]} f(x) \leq \inf_{x \in [y, x_k]} f(x)$, то
-  \[
-    s(f, Q) \geq s(f, P).
-  \]
-  Аналогично для верхней суммы Дарбу:
-  \[
-    S(f, Q) = S(f, P) - (x_k - x_{k-1})\cdot\sup_{x \in [x_{k-1}, x_k]} f(x) + (y - x_{k-1})\cdot\sup_{x \in [x_{k-1}, y]} f(x) + (x_k - y)\cdot\sup_{x \in [y, x_k]} f(x).
-  \]
-  Поскольку $\sup_{x \in [x_{k-1}, x_k]} f(x) \geq \sup_{x \in [x_{k-1}, y]} f(x)$ и $\sup_{x \in [x_{k-1}, x_k]} f(x) \geq \sup_{x \in [y, x_k]} f(x)$, то
-  \[
-    S(f, Q) \leq S(f, P).
-  \]
-\end{proof}
+  \begin{proof}
+    Так как $E$ открыто, $\exists\delta_1 > 0$: $B_{\delta_1}(x_0) \subset E$.
+    Так как $x_0$ --- точка локального минимума, $\exists\delta_0 > 0$:
+    $f(x) \geq f(x_0)$ для всех $x \in U_{\delta_0}(x_0)$.
 
-\begin{theorem}[Критерий интегрируемости]
-  Пусть $f : [a, b] \to \R$ --- ограниченная функция. Тогда $f$ интегрируема по Риману тогда и только тогда, когда
-  \[
-    \sup_{P} s(f, P) = \inf_{P} S(f, P).
-  \]
+    Возьмём произвольный индекс $i$ и рассмотрим функцию одной переменной
+    \[
+      g_i(t) = f(x_0^1, \ldots, x_0^{i-1},\, t,\, x_0^{i+1}, \ldots, x_0^m).
+    \]
+    Так как $f(x) \geq f(x_0)$ в окрестности $x_0$, то $t = x_0^i$ --- точка
+    локального минимума $g_i$. По необходимому условию одномерного экстремума:
+    \[
+      g_i'(x_0^i) = \frac{\partial f}{\partial x_i}(x_0) = 0.
+    \]
+    Поскольку $i$ произвольно, утверждение доказано. \qedhere
+  \end{proof}
 \end{theorem}
 
+\begin{note}
+  Стационарность --- необходимое, но не достаточное условие экстремума.
+  Например, $f(x,y) = x^2 - y^2$ имеет стационарную точку $(0,0)$, но там нет экстремума (седловая точка).
+\end{note}
+
+\question{Монотонность сумм Дарбу по разбиениям. Критерий интегрируемости}
+
+\begin{defn}[Разбиение и суммы Дарбу]
+  \emph{Разбиением} $\mathcal{T}$ отрезка $[a,b]$ называется конечный набор точек
+  $a = x_0 < x_1 < \ldots < x_N = b$; его \emph{мелкость} $\lambda(\mathcal{T}) = \max_i(x_i - x_{i-1})$.
+
+  Пусть $f: [a,b] \to \mathbb{R}$ ограничена. Тогда:
+  \[
+    m_i = \inf_{x \in [x_{i-1}, x_i]} f(x), \qquad M_i = \sup_{x \in [x_{i-1}, x_i]} f(x).
+  \]
+  \emph{Нижняя} и \emph{верхняя суммы Дарбу}:
+  \[
+    s(f, \mathcal{T}) = \sum_{i=1}^N m_i(x_i - x_{i-1}), \qquad
+    S(f, \mathcal{T}) = \sum_{i=1}^N M_i(x_i - x_{i-1}).
+  \]
+\end{defn}
+
+\begin{theorem}[Монотонность сумм Дарбу]
+  Пусть $\mathcal{T}_2 \supset \mathcal{T}_1$ (измельчение).
+  Тогда $s(f, \mathcal{T}_1) \leq s(f, \mathcal{T}_2)$ и $S(f, \mathcal{T}_1) \geq S(f, \mathcal{T}_2)$.
+  \begin{proof}
+    Достаточно рассмотреть добавление одной точки $y \in (x_{k-1}, x_k)$.
+    \[
+      s(\mathcal{T}_2) - s(\mathcal{T}_1)
+      = (y - x_{k-1})\underbrace{\inf_{[x_{k-1},y]} f}_{\geq m_k}
+      + (x_k - y)\underbrace{\inf_{[y, x_k]} f}_{\geq m_k}
+      - (x_k - x_{k-1}) m_k \geq 0.
+    \]
+    Для верхней суммы аналогично. \qedhere
+  \end{proof}
+\end{theorem}
+
+\begin{defn}[Интегралы Дарбу]
+  $J_* = \sup_{\mathcal{T}} s(f, \mathcal{T})$ --- нижний интеграл Дарбу,
+  $J^* = \inf_{\mathcal{T}} S(f, \mathcal{T})$ --- верхний интеграл Дарбу.
+\end{defn}
+
+\begin{theorem}[Критерий интегрируемости Дарбу]
+  $f \in R([a,b])$ тогда и только тогда, когда
+  $\forall\varepsilon>0\;\exists\delta>0$: $\lambda(\mathcal{T}) < \delta \Rightarrow
+  \Delta_\mathcal{T} f := S(f,\mathcal{T}) - s(f,\mathcal{T}) < \varepsilon$.
+
+  Эквивалентно: $J_* = J^*$.
+  \begin{proof}
+    Из монотонности: $s(f,\mathcal{T}) \leq J_* \leq J^* \leq S(f,\mathcal{T})$.
+
+    $(\Rightarrow)$ Интегрируемость $\Rightarrow$ $|s(f,T)-J|<\varepsilon$ и $|S(f,T)-J|<\varepsilon$
+    по Риману, откуда $\Delta_\mathcal{T} f \leq 2\varepsilon$.
+
+    $(\Leftarrow)$ Если $\Delta_\mathcal{T} f < \varepsilon$, то $0 \leq J^* - J_* \leq S - s < \varepsilon$,
+    т.\,е.\ $J^* = J_*$, и это значение является пределом сумм Римана. \qedhere
+  \end{proof}
+\end{theorem}

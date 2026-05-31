@@ -9,54 +9,87 @@
 \begin{theorem}[Инвариантность формы записи первого дифференциала]
 Пусть $f: U \subseteq \mathbb{R}^n \to \mathbb{R}^m$ дифференцируемо в точке $x^0 \in U$,
 и $g: V \subseteq \mathbb{R}^m \to \mathbb{R}^p$ дифференцируемо в точке $y^0 = f(x^0) \in V$.
-Тогда композиция $h = g \circ f: U \to \mathbb{R}^p$ дифференцируема в точке $x^0$, и её производная (матрица Якоби) задаётся формулой
+Тогда $h = g \circ f: U \to \mathbb{R}^p$ дифференцируема в точке $x^0$, и
 \[
-Dh(x^0) = Dg(f(x^0)) \cdot Df(x^0),
+Dh(x^0) = Dg(f(x^0)) \cdot Df(x^0).
 \]
-где $Dh(x^0)$ (размера $p \times n$), $Dg(f(x^0))$ ($p \times m$) и $Df(x^0)$ ($m \times n$) — матрицы Якоби отображений $h$, $g$ и $f$ соответственно.
 \begin{proof}
-По определению дифференцируемости $f$ в точке $x^0$ существует матрица Якоби $Df(x^0)$ размера $m \times n$ такая, что
+По определению дифференцируемости $f$ в $x^0$:
 \[
-f(x) = f(x^0) + Df(x^0)(x - x^0) + \alpha(x),\quad \alpha(x) = o(\|x - x^0\|)
+f(x) = f(x^0) + Df(x^0)(x - x^0) + \alpha(x),\quad \alpha(x) = o(\|x - x^0\|),
 \]
-для всех $x$ в окрестности $x^0$. Аналогично, для $g$ в точке $y^0$ существует матрица $Dg(y^0)$ размера $p \times m$ такая, что
+для $g$ в $y^0$:
 \[
-g(y) = g(y^0) + Dg(y^0)(y - y^0) + \beta(y),\quad \beta(y) = o(\|y - y^0\|)
+g(y) = g(y^0) + Dg(y^0)(y - y^0) + \beta(y),\quad \beta(y) = o(\|y - y^0\|).
 \]
-для всех $y$ в окрестности $y^0$.
-
-Рассмотрим композицию $h(x) = g(f(x))$. Подставляя разложение для $f(x)$, получаем
+Подставляем разложение $f(x)$ в $g$:
 \[
-h(x) = g\Bigl(f(x^0) + Df(x^0)(x - x^0) + \alpha(x)\Bigr).
+h(x) = g(f(x^0)) + Dg(f(x^0))\bigl(Df(x^0)(x - x^0) + \alpha(x)\bigr)
+        + \beta\bigl(Df(x^0)(x-x^0)+\alpha(x)\bigr).
 \]
-Теперь применим разложение для $g$ с $y = f(x^0) + Df(x^0)(x - x^0) + \alpha(x)$:
+В силу линейности $Dg(f(x^0))$:
 \[
-h(x) = g(f(x^0)) + Dg(f(x^0))\Bigl(Df(x^0)(x - x^0) + \alpha(x)\Bigr) + \beta\Bigl(Df(x^0)(x - x^0) + \alpha(x)\Bigr).
+Dg(f(x^0))(\alpha(x)) = o(\|x-x^0\|),
 \]
-В силу линейности $Dg(f(x^0))$ имеем
+и так как $\|Df(x^0)(x-x^0)+\alpha(x)\| \leq C\|x-x^0\|$, то
+$\beta(\cdot) = o(\|x-x^0\|)$. Собирая слагаемые:
 \[
-Dg(f(x^0))\bigl(Df(x^0)(x - x^0) + \alpha(x)\bigr) = \bigl(Dg(f(x^0)) Df(x^0)\bigr)(x - x^0) + Dg(f(x^0))(\alpha(x)).
+h(x) = h(x^0) + \bigl(Dg(f(x^0)) Df(x^0)\bigr)(x - x^0) + o(\|x-x^0\|). \qedhere
 \]
-Так как $\alpha(x) = o(\|x - x^0\|)$ и линейное отображение $Dg(f(x^0))$ переводит бесконечно малую в бесконечно малую, то $Dg(f(x^0))(\alpha(x)) = o(\|x - x^0\|)$.
-
-Далее заметим, что
-\[
-\|Df(x^0)(x - x^0) + \alpha(x)\| \le \|Df(x^0)\|\cdot\|x - x^0\| + \|\alpha(x)\| \le C\|x - x^0\|
-\]
-для некоторой константы $C$ (например, $C = \|Df(x^0)\|+1$ при достаточно малых $x$). Поэтому аргумент функции $\beta$ стремится к нулю со скоростью не медленнее $\|x - x^0\|$, и из $\beta(y) = o(\|y - y^0\|)$ следует
-\[
-\beta\bigl(Df(x^0)(x - x^0) + \alpha(x)\bigr) = o(\|x - x^0\|).
-\]
-
-Собирая все слагаемые, получаем
-\[
-h(x) = h(x^0) + \bigl(Dg(f(x^0)) Df(x^0)\bigr)(x - x^0) + o(\|x - x^0\|).
-\]
-Это означает, что $h$ дифференцируемо в точке $x^0$ и его производная (матрица Якоби) равна $Dg(f(x^0)) \cdot Df(x^0)$.
 \end{proof}
 \end{theorem}
 
-\question{Признаки сравнения числовых рядов. Признаки Даламбера, Коши}
+\question{Признаки сравнения числовых рядов. Признаки Даламбера и Коши}
 
-% Ответ...
+\begin{defn}[Ряд и сходимость]
+  Пусть дана числовая последовательность $\{a_n\}_{n=1}^\infty$.
+  Величина $S_n := \sum_{k=1}^n a_k$ называется \emph{$n$-й частичной суммой}.
+  Ряд $\sum_{n=1}^\infty a_n$ \emph{сходится}, если $\exists A \in \mathbb{R}$: $\lim_{n\to\infty} S_n = A$.
+\end{defn}
 
+\begin{theorem}[Первый признак сравнения]
+  Пусть $\{a_k\},\{b_k\}$ --- неотрицательные последовательности и $\exists k_0 \in \mathbb{N}$:
+  $a_k \leq b_k$ при всех $k \geq k_0$.
+  \begin{enumerate}
+    \item $\sum b_k$ сходится $\Rightarrow$ $\sum a_k$ сходится.
+    \item $\sum a_k$ расходится $\Rightarrow$ $\sum b_k$ расходится.
+  \end{enumerate}
+  \begin{proof}
+    \textbf{(1).} Из $a_k \leq b_k$ при $k \geq k_0$ имеем
+    $\sum_{k=k_0+1}^n a_k \leq \sum_{k=k_0+1}^n b_k$.
+    Так как $\sum b_k$ сходится, частичные суммы ограничены, поэтому $\lim_{k\to\infty} S_n^a$ конечен.
+    \textbf{(2).} Из первого пункта контрапозитивно. \qedhere
+  \end{proof}
+\end{theorem}
+
+\begin{theorem}[Второй признак сравнения]
+  Пусть $a_k, b_k \geq 0$, $b_k > 0$ при $k \geq k_0$, и $\exists\, L = \lim_{k\to\infty} \dfrac{a_k}{b_k} \in (0, +\infty)$.
+  Тогда ряды $\sum a_k$ и $\sum b_k$ сходятся или расходятся одновременно.
+  \begin{proof}
+    Из $a_k/b_k \to L$: начиная с некоторого $k_1$ выполняется
+    $\tfrac{L}{2}\,b_k \leq a_k \leq \tfrac{3L}{2}\,b_k$.
+    По первому признаку ряды ведут себя одинаково. \qedhere
+  \end{proof}
+\end{theorem}
+
+\begin{theorem}[Признак Даламбера]
+  Пусть $a_k > 0$. Если $\exists k_0 \in \mathbb{N}$ и $q < 1$ такое, что
+  $\dfrac{a_{k+1}}{a_k} \leq q$ при всех $k \geq k_0$, то $\sum a_k$ сходится.
+  Если $\dfrac{a_{k+1}}{a_k} \geq 1$ при $k \geq k_0$, то $\sum a_k$ расходится.
+  \begin{proof}
+    При $\dfrac{a_{k+1}}{a_k} \leq q < 1$: начиная с $k_0$, ряд убывает и мажорируется
+    геометрической прогрессией $\sum_{k \geq k_0} q^{k-k_0} a_{k_0}$, которая сходится.
+    При $\dfrac{a_{k+1}}{a_k} \geq 1$: $a_k \not\to 0$ --- нарушено необходимое условие. \qedhere
+  \end{proof}
+\end{theorem}
+
+\begin{theorem}[Признак Коши (радикальный)]
+  Пусть $a_k \geq 0$. Если $\exists q \in (0,1)$, $\exists k_0 \in \mathbb{N}$:
+  $\sqrt[k]{a_k} \leq q$ при $k \geq k_0$, то $\sum a_k$ сходится.
+  Если $\sqrt[k]{a_k} \geq 1$ при $k \geq k_0$, то $\sum a_k$ расходится.
+  \begin{proof}
+    \textbf{Сходимость.} $a_k \leq q^k$ при $k \geq k_0$, и $\sum q^k$ сходится при $q < 1$.
+    
+    \textbf{Расходимость.} $a_k \not\to 0$ при $k \to \infty$ --- необходимое условие нарушено. \qedhere
+  \end{proof}
+\end{theorem}

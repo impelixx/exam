@@ -12,65 +12,88 @@
   \[
     \nabla f(x^0)
     = \left(\frac{\partial f}{\partial x_1}(x^0), \ldots,
-             \frac{\partial f}{\partial x_n}(x^0)\right),
+             \frac{\partial f}{\partial x_n}(x^0)\right).
   \]
-  где $\dfrac{\partial f}{\partial x_k}(x^0)
-       = \lim_{t \to 0}\dfrac{f(x^0 + t\,e_k) - f(x^0)}{t}$,
-  а $e_k = (0,\ldots,\underset{k}{1},\ldots,0)$ --- орт $k$-й оси.
 \end{defn}
 
 \begin{defn}[Касательная плоскость]
-  Пусть $f : B_\delta(x^0, y^0) \to \mathbb{R}$. Плоскость вида
+  Плоскость $z_t(x,y) = f(x^0,y^0) + N_x(x-x^0) + N_y(y-y^0)$
+  называется \emph{касательной плоскостью} к графику $f$ в точке $(x^0, y^0, f(x^0,y^0))$, если
   \[
-    z_t(x,y) = f(x^0,y^0) + N_x(x-x^0) + N_y(y-y^0)
+    f(x,y) - z_t(x,y) = \varepsilon(x,y)\cdot\sqrt{(x-x^0)^2+(y-y^0)^2},
+    \quad \varepsilon(x,y) \to 0 \text{ при } (x,y) \to (x^0,y^0).
   \]
-  называется \textit{касательной плоскостью} к графику $f$ в точке
-  $(x^0,\, y^0,\, f(x^0,y^0))$, если:
-  \[
-    f(x,y) - z_t(x,y)
-    = \varepsilon(x,y)\cdot\sqrt{(x-x^0)^2+(y-y^0)^2},
-  \]
-  где $\varepsilon(x,y) \to 0$ при $(x,y) \to (x^0, y^0)$.
-
-  Геометрически: плоскость задаётся точкой касания
-  $(x^0, y^0, f(x^0,y^0))$ и двумя наклонами ---
-  $\frac{\partial f}{\partial x}$ вдоль оси $x$
-  и $\frac{\partial f}{\partial y}$ вдоль оси $y$.
-  Нормальный вектор к такой плоскости:
-  $\overline{N} = \!\left(\dfrac{\partial f}{\partial x}(x^0,y^0),\;
-  \dfrac{\partial f}{\partial y}(x^0,y^0),\; -1\right)$.
+  Нормальный вектор: $\overline{N} = \bigl(\tfrac{\partial f}{\partial x}(x^0,y^0),\;
+  \tfrac{\partial f}{\partial y}(x^0,y^0),\; -1\bigr)$.
 \end{defn}
 
 \begin{theorem}[Геометрический смысл дифференцируемости]
-  $f : B_\delta(x^0,y^0) \to \mathbb{R}$ дифференцируема в точке $(x^0,y^0)$
-  тогда и только тогда, когда существует касательная плоскость к графику $f$
-  в точке $(x^0,\,y^0,\,f(x^0,y^0))$. При этом:
-  \[
-    \overline{n} = \bigl(\nabla f(x^0,y^0),\,-1\bigr),
-  \]
-  а дифференциал --- это приращение $z$ вдоль касательной плоскости:
+  $f$ дифференцируема в $(x^0,y^0)$ тогда и только тогда, когда существует
+  касательная плоскость к её графику в точке $(x^0, y^0, f(x^0,y^0))$.
+  При этом нормаль $\overline{n} = (\nabla f(x^0,y^0),\,-1)$,
+  а дифференциал $df$ есть приращение $z$ вдоль касательной:
   \[
     z_t(x,y) - z_t(x^0,y^0) = d_{(x^0,y^0)}f\bigl((x,y)-(x^0,y^0)\bigr).
   \]
   \begin{proof}
-    Дифференцируемость $f$ в $(x^0,y^0)$ равносильна существованию
-    $A_1, A_2 \in \mathbb{R}$ таких, что:
-    \[
-      f(x,y) - f(x^0,y^0)
-      = A_1(x-x^0) + A_2(y-y^0)
-      + \varepsilon(x,y)\sqrt{(x-x^0)^2+(y-y^0)^2}.
-    \]
-    Плоскость $z_t(x,y) = f(x^0,y^0) + A_1(x-x^0) + A_2(y-y^0)$
-    удовлетворяет определению касательной, так как
-    $f(x,y) - z_t(x,y) = \varepsilon(x,y)\sqrt{(x-x^0)^2+(y-y^0)^2}$.
-    Обратно --- существование касательной даёт то же равенство,
-    то есть определение дифференцируемости.
-    Поскольку $(A_1,A_2) = \nabla f(x^0,y^0)$,
-    нормаль есть $(\nabla f(x^0,y^0),\,-1)$. \qedhere
+    Дифференцируемость равносильна $f(x,y) - f(x^0,y^0) = A_1(x-x^0) + A_2(y-y^0)
+    + \varepsilon\sqrt{(x-x^0)^2+(y-y^0)^2}$. Плоскость
+    $z_t = f(x^0,y^0) + A_1(x-x^0) + A_2(y-y^0)$ удовлетворяет определению.
+    Обратно --- существование касательной даёт то же равенство, где $(A_1,A_2) = \nabla f(x^0,y^0)$. \qedhere
   \end{proof}
 \end{theorem}
 
-\question{Разложение в степенной ряд комплексной функции $e^z$}
+\paragraph{Производная по направлению.}
+Пусть $l = (l_1, l_2, l_3)$ --- вектор в $\mathbb{R}^3$.
+Производной $f$ по вектору $l$ в точке $(x_0,y_0,z_0)$ называется
+\[
+  \frac{\partial f}{\partial l} = \lim_{t \to +0}
+  \frac{f(x_0+tl_1,\,y_0+tl_2,\,z_0+tl_3) - f(x_0,y_0,z_0)}{t}.
+\]
+Нетрудно заметить, что если $f$ дифференцируема:
+\[
+  \frac{\partial f}{\partial l}(x_0,y_0,z_0)
+  = \frac{\partial f}{\partial x}(x_0,y_0,z_0)\,l_1
+  + \frac{\partial f}{\partial y}(x_0,y_0,z_0)\,l_2
+  + \frac{\partial f}{\partial z}(x_0,y_0,z_0)\,l_3
+  = \langle l,\, \nabla f \rangle.
+\]
+Таким образом, $\dfrac{\partial f}{\partial l} = \langle l, \nabla f \rangle$, и при $l = \nabla f$ производная по направлению максимальна.
 
-% Ответ...
+\question{Разложение функции $e^z$ в ряд Тейлора (Маклорена)}
 
+\begin{defn}[Ряд Тейлора]
+  Если $f(x)$ определена в $x_0$ и имеет там все производные, то степенной ряд
+  \[
+    f(x_0) + \sum_{n=1}^{\infty} \frac{f^{(n)}(x_0)}{n!}(x-x_0)^n
+  \]
+  называется \emph{рядом Тейлора} функции $f$ в точке $x_0$.
+\end{defn}
+
+\begin{defn}[Регулярность / аналитичность]
+  Функция $f$ называется \emph{регулярной (аналитической) в точке $x_0$},
+  если она представима сходящимся степенным рядом:
+  $f(x) = \sum_{n=0}^{\infty} c_n(x-x_0)^n$.
+  Коэффициенты определяются формулой $c_n = \dfrac{f^{(n)}(x_0)}{n!}$.
+\end{defn}
+
+\begin{theorem}[Разложение $e^x$ в ряд Маклорена]
+  \[
+    e^x = 1 + \sum_{n=1}^{\infty} \frac{x^n}{n!} = \sum_{n=0}^{\infty} \frac{x^n}{n!},
+    \quad x \in \mathbb{R},\quad R = +\infty.
+  \]
+  \begin{proof}
+    Так как $f^{(n)}(x) = e^x$ для всех $n$, то $c_n = \dfrac{f^{(n)}(0)}{n!} = \dfrac{1}{n!}$.
+    Оценим радиус сходимости: для любого фиксированного $\rho \geq 0$ и $\forall x \in (-\rho, \rho)$
+    выполняется $0 \leq f^{(n)}(x) = e^x \leq e^\rho$, поэтому остаток Лагранжа
+    \[
+      R_n(x) = \frac{e^\theta}{(n+1)!}x^{n+1} \to 0 \text{ при } n \to \infty
+    \]
+    для любого фиксированного $x$. Поскольку $\rho \in \mathbb{N}$ произвольно, $R = +\infty$.
+  \end{proof}
+\end{theorem}
+
+\begin{note}
+  Разложение обобщается на комплексные числа: $e^z = \sum_{n=0}^{\infty} \dfrac{z^n}{n!}$,
+  $z \in \mathbb{C}$, что используется в доказательстве формулы Эйлера $e^{i\varphi} = \cos\varphi + i\sin\varphi$.
+\end{note}

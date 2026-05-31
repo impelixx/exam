@@ -18,38 +18,16 @@
 \end{theorem}
 
 \begin{proof}
-Введём $\varphi(t) = F(x_* + t\,dx)$ — композицию $F \circ H$,
-где $H(t) = x_* + t\,dx$ — прямая из $x_*$ в $x$.
-Тогда $\varphi(0) = F(x_*)$, $\varphi(1) = F(x)$.
-
-\textit{Ключевой факт} (индукция по $k$):
-$\varphi^{(k)}(t) = d^k_{x^t}F(dx)$, где $x^t = x_* + t\,dx$.
-
-База $k=1$: производная $H$ по $t$ — это константный вектор $DH(t) = dx$.
-По теореме о дифференцировании композиции:
-\[
-    \varphi'(t) = DF(x^t)\cdot DH(t)
-    = \sum_{i=1}^n \frac{\partial F}{\partial x_i}(x^t)\cdot dx_i
-    = d_{x^t}F(dx).
-\]
-
-Шаг: предположим $\varphi^{(l)}(t) = d^l_{x^t}F(dx)$.
-Дифференцируем по $t$. Множители $dx_{i_j}$ не зависят от $t$,
-поэтому дифференцируем только частные производные.
-Каждая из них — снова композиция с $H$, применяем ту же теорему
-и получаем $d^{l+1}_{x^t}F(dx)$.
-
-Итого $\varphi^{(k)}(0) = d^k_{x_*}F(dx)$.
-Применяем одномерный Тейлор к $\varphi$ на $[0,1]$ и подставляем:
-\[
-    F(x) = \sum_{k=0}^{m} \frac{d^k_{x_*} F(dx)}{k!}
-    + \frac{d^{m+1}_{x^\theta} F(dx)}{(m+1)!}. \qedhere
-\]
+Введём $\varphi(t) = F(x_* + t\,dx)$, тогда $\varphi(0) = F(x_*)$, $\varphi(1) = F(x)$.
+По правилу дифференцирования композиции $\varphi'(t) = DF(x^t)\cdot dx$,
+откуда по индукции $\varphi^{(k)}(t) = d^k_{x^t}F(dx)$, $x^t = x_*+t\,dx$.
+В частности $\varphi^{(k)}(0) = d^k_{x_*}F(dx)$.
+Применяем одномерный Тейлор к $\varphi$ на $[0,1]$. \qedhere
 \end{proof}
 
 \begin{theorem}[Остаток Пеано]
-Пусть все частные производные $F$ до порядка $m$ существуют и непрерывны
-в $B_\delta(x_*)$. Тогда $\forall x \in B_\delta(x_*)$:
+Пусть все производные $F$ до порядка $m$ существуют и непрерывны в $B_\delta(x_*)$.
+Тогда:
 \[
     F(x) = \sum_{k=0}^{m} \frac{d^k_{x_*} F(dx)}{k!}
     + o\!\left(\|x - x_*\|^m\right), \quad x \to x_*.
@@ -57,46 +35,43 @@ $\varphi^{(k)}(t) = d^k_{x^t}F(dx)$, где $x^t = x_* + t\,dx$.
 \end{theorem}
 
 \begin{proof}
-Производные порядка $m$ существуют и непрерывны, поэтому применяем
-Лагранжа с $m-1$ вместо $m$ (тогда требуются производные порядка $m$):
-\[
-    F(x) = \sum_{k=0}^{m-1} \frac{d^k_{x_*} F(dx)}{k!}
-    + \frac{d^m_{x^\theta}F(dx)}{m!}, \quad \theta \in (0,1).
-\]
-
-Прибавим и вычтем $\frac{d^m_{x_*}F(dx)}{m!}$ (умный ноль),
-чтобы сумма шла до $m$:
+Применяем Лагранжа с $m-1$, добавляем и вычитаем $\frac{d^m_{x_*}F(dx)}{m!}$:
 \[
     F(x) = \sum_{k=0}^{m} \frac{d^k_{x_*} F(dx)}{k!}
-    + \underbrace{\frac{d^m_{x^\theta}F(dx) - d^m_{x_*}F(dx)}{m!}}_{R}.
+    + \frac{d^m_{x^\theta}F(dx) - d^m_{x_*}F(dx)}{m!}.
 \]
-
-Покажем что $R = o(\|x-x_*\|^m)$. Раскроем по определению дифференциала:
+Остаток $R$: из непрерывности производных $m$-го порядка
 \[
-    R = \frac{1}{m!}\sum_{i_1,\ldots,i_m=1}^{n}
-    \left[
-        \frac{\partial^m F}{\partial x_{i_1}\cdots\partial x_{i_m}}(x^\theta)
-        -\frac{\partial^m F}{\partial x_{i_1}\cdots\partial x_{i_m}}(x_*)
-    \right]
-    dx_{i_1}\cdots dx_{i_m}.
-\]
-
-В каждом слагаемом две части:
-\begin{itemize}
-    \item $|dx_{i_1}\cdots dx_{i_m}| \leq \|x-x_*\|^m$,
-    так как $|dx_i| \leq \|x-x_*\|$.
-    \item Разность производных стремится к нулю при $x \to x_*$,
-    так как $x^\theta \to x_*$ и производные порядка $m$ непрерывны.
-\end{itemize}
-
-Обозначим максимум разности производных по всем индексам через $\varepsilon(x) \to 0$.
-В сумме $n^m$ слагаемых, поэтому:
-\[
-    |R| \leq \frac{n^m \cdot \varepsilon(x)}{m!} \cdot \|x-x_*\|^m
-    = o\!\left(\|x-x_*\|^m\right). \qedhere
+    |R| \leq \frac{n^m\,\varepsilon(x)}{m!}\cdot\|x-x_*\|^m = o\!\left(\|x-x_*\|^m\right). \qedhere
 \]
 \end{proof}
-\question{Интегральный признак сходимости ЧР}
 
-% Ответ...
+\question{Интегральный признак сходимости числового ряда}
 
+\begin{theorem}[Признак Коши--Маклорена]
+  Пусть $f: [1, +\infty) \to [0, +\infty)$ --- монотонно убывающая функция. Тогда
+  \[
+    \sum_{k=1}^{\infty} f(k) \text{ сходится} \quad\Longleftrightarrow\quad
+    \int_1^{+\infty} f(x)\,dx \text{ сходится}.
+  \]
+  \begin{proof}
+    \textbf{Случай $A \neq 0$.}
+    В силу монотонности $\exists\lim_{x\to\infty} f(x) = A \in \mathbb{R}$.
+    Если $A \neq 0$, то $\lim_{k\to\infty} f(k) = A \neq 0$ --- нарушено необходимое условие
+    сходимости ряда $\Rightarrow$ ряд расходится; и $\int_1^\infty f(x)\,dx$ расходится
+    по признаку сравнения. Оба расходятся.
+
+    \textbf{Случай $A = 0$.}
+    Так как $f$ убывает, при $x \in [k, k+1]$ имеем $f(k) \geq f(x) \geq f(k+1)$.
+    Интегрируя по $[k, k+1]$:
+    \[
+      f(k) \geq \int_k^{k+1} f(x)\,dx \geq f(k+1).
+    \]
+    Суммируя по $k = 1, \ldots, n$:
+    \[
+      \sum_{k=1}^n f(k) \geq \int_1^{n+1} f(x)\,dx \geq \sum_{k=2}^{n+1} f(k).
+    \]
+    Следовательно, частичные суммы ряда ограничены тогда и только тогда, когда
+    интеграл ограничен, т.\,е.\ ряд и интеграл сходятся или расходятся одновременно. \qedhere
+  \end{proof}
+\end{theorem}
